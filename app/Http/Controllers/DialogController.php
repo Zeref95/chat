@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dialog;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,10 +20,17 @@ class DialogController extends Controller
         try {
             DB::beginTransaction();
             if (isset($request->user_id)) {
-                $dialog = Auth::user()->dialogs->where('is_group', false)->first();
+                $r = $request->user_id;
+                $dialog = Auth::user()->dialogsWithUsers->where('is_group', false)->filter(function ($value, $key) use ($r) {
+                    $z = $value->users->filter(function ($value, $key) use ($r) {
+                        return $value->id == $r;
+                    });
+                    return $z->count() > 0;
+                })->first();
                 if (!$dialog) {
                     $dialog = Dialog::create();
                     Auth::user()->dialogs()->attach($dialog);
+                    User::find($request->user_id)->dialogs()->attach($dialog);
                 }
             }
             DB::commit();
