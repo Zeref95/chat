@@ -1,6 +1,16 @@
 <script setup>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head } from '@inertiajs/inertia-vue3';
+import { ref } from 'vue'
+import axios from 'axios'
+import { Link } from '@inertiajs/inertia-vue3';
+
+const users = ref();
+axios.get('/users')
+.then(response => {
+  users.value = response.data
+})
+
 </script>
 
 <template>
@@ -17,7 +27,12 @@ import { Head } from '@inertiajs/inertia-vue3';
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        You're logged in!
+                        Users:
+                        <ul>
+                          <li v-for="user in users">
+                            <Link :href="route('chat', {'user_id': user.id})">{{user.name}}</Link>
+                          </li>
+                        </ul>
                     </div>
                 </div>
             </div>

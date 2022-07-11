@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\DialogController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,8 +27,24 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
+    Route::get('/chat/{id?}', function () {
+        return Inertia::render('Chat');
+    })->name('chat');
+
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+    Route::get('/dialogs', [DialogController::class, 'index'])->name('dialogs.index');
+    Route::post('/dialogs/create', [DialogController::class, 'create'])->name('dialogs.create');
+
+    Route::get('/messages/{id}', [MessageController::class, 'index'])->name('message.index');
+    Route::post('/messages/create', [MessageController::class, 'create'])->name('message.create');
+});
+
+
 
 require __DIR__.'/auth.php';
