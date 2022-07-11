@@ -5,10 +5,10 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { Link } from '@inertiajs/inertia-vue3';
 
-const users = ref();
+const users = ref([]);
 axios.get('/users')
 .then(response => {
-  users.value = response.data
+  users.value = response.data.users
 })
 
 </script>

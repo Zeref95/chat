@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+
 class UserController extends Controller
 {
     public function index()
     {
-        return response()->json(['user' => \auth()->user()]);
+        return response()->json(['users' => User::all()]);
     }
 }
