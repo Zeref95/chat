@@ -30,10 +30,11 @@ const showingNavigationDropdown = ref(false);
                                 <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </BreezeNavLink>
-                              <BreezeNavLink :href="route('chat')" :active="route().current('chat')">
-                                Chat
-                              </BreezeNavLink>
+                                <BreezeNavLink :href="route('chat')" :active="route().current('chat')">
+                                  Chat
+                                </BreezeNavLink>
                             </div>
+
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -78,6 +79,9 @@ const showingNavigationDropdown = ref(false);
                     <div class="pt-2 pb-3 space-y-1">
                         <BreezeResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
+                        </BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink :href="route('chat')" :active="route().current('chat')">
+                          Chat
                         </BreezeResponsiveNavLink>
                     </div>
 
